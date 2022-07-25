@@ -1,0 +1,49 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+$white: #fff;
+$gold: #d6c78e;
+$darkgold: #9b9165;
+$red: #A01C35;
+$dark: #232323;
+$darker:#191919;
+
+html {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: 'Raleway', sans-serif;
+	font-size: 1.6rem;
+	color: $white;
+	background-color: $dark;
+	// overflow: hidden;
+}
+
+.wrapper {
+	margin: 0 auto;
+	max-width: 1200px;
+  width: 100%;
+  background: #000;
+}
+
+.start-panel {
+  height: 100vh;
+  display: flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items: center;
+
+  &__btn {
+    text-transform: uppercase;
+    border-radius: 1.8rem;
+    padding: 0.6em 4em;
+  }
+}
+
