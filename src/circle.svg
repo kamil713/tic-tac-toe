@@ -1,0 +1,16 @@
+<svg width="150" height="170" xmlns="http://www.w3.org/2000/svg">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <path id="svg_2" d="m0.5,74.9165c0,-41.23717 33.39205,-74.6665 74.58323,-74.6665l0,0c19.7807,0 38.75125,7.86663 52.73831,21.86931c13.98707,14.00269 21.84493,32.99439 21.84493,52.79719l0,0c0,41.23717 -33.39205,74.6665 -74.58323,74.6665l0,0c-41.19118,0 -74.58323,-33.42933 -74.58323,-74.6665l0.2073,0l0.10365,0l0.05182,0l0.02591,0l-0.3887,0l0.00001,0zm37.29161,0l0,0c0,20.61858 16.69604,37.33325 37.29161,37.33325c20.59559,0 37.29161,-16.71467 37.29161,-37.33325c0,-20.61858 -16.69604,-37.33325 -37.29161,-37.33325l0,0c-20.59558,0 -37.29161,16.71468 -37.29161,37.33325z" fill="url(#svg_1)" stroke-width="0"/>
+  <ellipse opacity="0.4" filter="url(#svg_4_blur)" stroke-width="0" ry="20" rx="65" id="svg_4" cy="140" cx="77" fill="#ff0042"/>
+ </g>
+ <defs>
+  <linearGradient id="svg_1" x1="0" y1="0" x2="1" y2="0">
+   <stop stop-color="#a01c35" stop-opacity="0.99609" offset="0"/>
+   <stop stop-color="#ff0042" stop-opacity="0.99609" offset="1"/>
+  </linearGradient>
+  <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_4_blur">
+   <feGaussianBlur stdDeviation="10" in="SourceGraphic"/>
+  </filter>
+ </defs>
+</svg>

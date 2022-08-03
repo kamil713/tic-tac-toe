@@ -1,0 +1,17 @@
+<svg width="150" height="170" xmlns="http://www.w3.org/2000/svg">
+ <title>Cross</title>
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <ellipse filter="url(#svg_2_blur)" opacity="0.4" ry="20" rx="65" id="svg_2" cy="140" cx="74.57924" fill="#ff0042"/>
+  <path stroke-width="0" id="svg_1" d="m0.66666,36.43159l36.08448,-36.28653l38.33199,38.54631l38.33199,-38.54631l36.08482,36.28653l-38.332,38.54662l38.332,38.54662l-36.08482,36.28687l-38.33199,-38.54663l-38.33199,38.54663l-36.08448,-36.28687l38.33167,-38.54662l-38.33167,-38.54662z" stroke="#000" fill="url(#svg_5)"/>
+ </g>
+ <defs>
+  <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_2_blur">
+   <feGaussianBlur stdDeviation="10" in="SourceGraphic"/>
+  </filter>
+  <linearGradient id="svg_5" x1="0" y1="0" x2="1" y2="0" spreadMethod="pad">
+   <stop stop-opacity="0.99609" offset="0" stop-color="#a01c35"/>
+   <stop stop-opacity="0.99609" offset="1" stop-color="#ff0042"/>
+  </linearGradient>
+ </defs>
+</svg>

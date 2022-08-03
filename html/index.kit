@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,44 +8,146 @@
   <title>Tic Tac Toe</title>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dist/css/style.min.css">
-
-  <script defer src="dist/js/game.min.js"></script>
 </head>
+
 <body>
-
   <div class="wrapper">
-    <section class="test">
-      <div class="circle"></div>
-      
-      <div class="start-panel">
-        <div class="desktop">
-          <div class="circle-desktop"></div>
-          <div class="cross-desktop">
-          </div>
-        </div>
 
-        <div class="panel">
-          <h2>Enter your Name</h2>
-          <div class="start-panel__form">
-            <input type="text" name="name" id="name" placeholder="Name" required />
-            <label for="name">Your name</label>
-          </div>
-        </div>
-
-        <div class="control-panel">
-          <a href="#" class="control-panel__btn primary">
-            <span>Continue</span>
-          </a>
-          <a href="#" class="control-panel__settings">
-            <span></span>
-          </a>
-        </div>
-
+    <!-- START-PANEL SECTION -->
+    <section class="start-panel hidden">
+      <div class="start-panel__desktop-logo">
+        <div class="logo__circle"></div>
+        <div class="logo__cross"></div>
       </div>
-      
-      <div class="cross"></div>
+
+      <div class="start-panel__form">
+        <h2 class="form__title">Enter your Name</h2>
+        <div class="form__name">
+          <input class="name__input" type="text" name="name" id="name" placeholder="Name" required />
+          <label class="name__label" for="name">Your name</label>
+        </div>
+      </div>
+
+      <div class="start-panel__control-panel">
+        <a href="#" class="panel__button-continue">
+          <span>Continue</span>
+        </a>
+        <a href="#" class="panel__button-settings">
+          <span></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- SETTINGS SECTION  -->
+    <section class="settings">
+      <div class="settings__logo">
+        <div class="logo__circle"></div>
+        <div class="logo__cross"></div>
+      </div>
+
+      <h2 class="settings__title">Tic Tac Toe</h2>
+      <p class="settings__subtitle">ver. 0.0.1</p>
+
+      <!-- ALL OPTIONS -->
+      <div class="settings__options-list">
+        
+        <!-- DARK MODE ELEMENT-->
+        <div class="list__item">
+          <div class="item__tag">
+            <span class="tag__icon icon--dark-mode"></span>
+            <p class="tag__title">Dark Mode</p>
+          </div>
+
+          <div class="item__select-box">
+            <div class="options-container options-container--dark-mode">
+              <div class="option option--dark-mode option--on">
+                <input type="radio" class="radio" id="on" name="category">
+                <label for="on">On</label>
+              </div>
+              <div class="option option--dark-mode option--off">
+                <input type="radio" class="radio" id="off" name="category">
+                <label for="off">Off</label>
+              </div>
+            </div>
+
+            <div class="selected selected--dark-mode">
+              On
+            </div>
+          </div>
+        </div>
+
+        <!-- DIFFICULTY ELEMENT-->
+        <div class="list__item">
+          <div class="item__tag">
+            <span class="tag__icon icon--difficulty"></span>
+            <p class="tag__title">Difficulty</p>
+          </div>
+
+          <div class="item__select-box">
+            <div class="options-container options-container--difficulty">
+              <div class="option option--difficulty option--random">
+                <input type="radio" class="radio" id="random" name="category">
+                <label for="random">Random</label>
+              </div>
+              <div class="option option--difficulty option--easy">
+                <input type="radio" class="radio" id="easy" name="category">
+                <label for="easy">Easy</label>
+              </div>
+              <div class="option option--difficulty option--medium">
+                <input type="radio" class="radio" id="medium" name="category">
+                <label for="medium">Medium</label>
+              </div>
+              <div class="option option--difficulty option--hard">
+                <input type="radio" class="radio" id="hard" name="category">
+                <label for="hard">Hard</label>
+              </div>
+            </div>
+
+            <div class="selected selected--difficulty">
+              Random
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYOUT ELEMENT-->
+        <div class="list__item">
+          <div class="item__tag">
+            <span class="tag__icon icon--layout"></span>
+            <p class="tag__title">Layout</p>
+          </div>
+
+          <div class="item__select-box">
+            <div class="options-container options-container--layout">
+              <div class="option option--layout option--red">
+                <input type="radio" class="radio" id="red" name="category">
+                <label for="red">Red</label>
+              </div>
+              <div class="option option--layout option--green">
+                <input type="radio" class="radio" id="green" name="category">
+                <label for="green">Green</label>
+              </div>
+              <div class="option option--layout option--blue">
+                <input type="radio" class="radio" id="blue" name="category">
+                <label for="blue">Blue</label>
+              </div>
+            </div>
+
+            <div class="selected selected--layout">
+              Red
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings__control-panel">
+        <a href="#" class="panel__button-back">
+          <span>Back</span>
+        </a>
+      </div>
     </section>
   </div>
 
+  <script src="dist/js/main.min.js"></script>
 </body>
+
 </html>

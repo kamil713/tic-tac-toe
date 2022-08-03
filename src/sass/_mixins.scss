@@ -1,0 +1,48 @@
+@mixin button {
+  padding: 1rem 3rem;
+	font-size: 1.2rem;
+	font-weight: 700;
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration: none;
+	display: inline-block;
+	border: 0.2rem solid transparent;
+  border-color: #a01c35;
+	border-radius: 4rem;
+	position: relative;
+	line-height: 1.8;
+	transition: all 0.6s ease;
+  color: #ffffff;
+	cursor: pointer;
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		right: 2rem;
+		transform: translate3d(-0.5rem, 0, 0);
+		width: 1.4rem;
+		height: 1.1rem;
+		margin-top: -0.5rem;
+		display: block;
+		background: url('/dist/img/rightArrow.png') no-repeat 50% 50%;
+		background-size: 100% auto;
+		transition: all 0.4s ease;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+  &:hover {
+		background: linear-gradient(90deg, #a01c35, #ff0042);
+		border-color: #a01c35;
+		color: #ffffff;
+		padding-right: 5rem;
+		box-shadow: 0 1rem 1.5rem rgba($light-red, 0.2);
+
+		&:after {
+			transform: translate3d(0, 0, 0);
+			opacity: 1;
+			transition-delay: 0.3s;
+		}
+	}
+}
