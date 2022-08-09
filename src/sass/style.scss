@@ -277,7 +277,7 @@ body {
 		.list__item {
 			display: flex;
 			justify-content: space-between;
-			align-items: center;
+			align-items: flex-start;
 			// background-color: goldenrod;
 			padding: 2rem;
 			padding-bottom: 0;
