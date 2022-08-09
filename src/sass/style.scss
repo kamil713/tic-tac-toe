@@ -48,11 +48,6 @@ body {
 
 /* START-PANEL SECTION */
 .start-panel {
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 
 	&__form {
 		display: flex;
@@ -215,6 +210,27 @@ body {
 			margin-bottom: -3rem;
 			transform: scale(1);
 		}
+
+		&__form {
+			.form__title {
+				font-size: 2rem;
+			}
+		}
+
+		&__control-panel {
+			.panel__button-settings {
+				border-radius: 4rem;
+
+				&:after {
+					width: 2rem;
+					height: 2rem;
+				}
+
+				&:before {
+					border-radius: 4rem;
+				}
+			}
+		}
 	}
 }
 
@@ -252,11 +268,6 @@ body {
 
 /* SETTINGS SECTION  */
 .settings {
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 
 	&__logo {
 		display: flex;
@@ -295,15 +306,18 @@ body {
 					// background-size: 100% auto;
 
 					&.icon--dark-mode {
-						background: url('/dist/img/moon.svg'); // no-repeat 50% 50%;
+						mask: url('/dist/img/moon.svg');
+						background: var(--white);
 					}
 
 					&.icon--difficulty {
-						background: url('/dist/img/gauge.svg'); // no-repeat 50% 50%;
+						mask: url('/dist/img/gauge.svg');
+						background: var(--white);
 					}
 
 					&.icon--layout {
-						background: url('/dist/img/palette.svg'); // no-repeat 50% 50%;
+						mask: url('/dist/img/palette.svg');
+						background: var(--white);
 					}
 				}
 
@@ -338,7 +352,7 @@ body {
 
 						+ .selected::after {
 							transform: rotateX(180deg);
-							top: 6px;
+							top: 9px;
 						}
 					}
 
@@ -371,10 +385,10 @@ body {
 
 						position: absolute;
 						height: 100%;
-						width: 32px;
-						height: 32px;
+						width: 25px;
+						height: 25px;
 						right: 10px;
-						top: 5px;
+						top: 9px;
 
 						transition: all 0.4s;
 					}
@@ -419,3 +433,86 @@ body {
 		}
 	}
 }
+
+@media (max-width: 348px) {
+	.settings {
+
+		&__logo {
+			transform: scale(0.7);
+		}
+
+		&__title {
+			margin-top: -2.5rem;
+		}
+
+		&__options-list {
+			margin-top: 1rem;
+
+			.list__item {
+				.item__select-box {
+					width: 150px;
+				}
+			}
+		}
+
+		&__control-panel {
+			.panel__button-back {
+				margin-top: 3rem;
+			}
+		}
+	}
+}
+
+/* PLAY MODE SECTION */
+.mode-panel {
+
+	&__logo {
+		display: flex;
+
+		.logo__circle {
+			@include circle;
+		}
+
+		.logo__cross {
+			@include cross;
+		}
+	}
+
+	&__control-panel {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 5rem;
+
+		.panel__button-ai {
+			@include button;
+			text-transform: none;
+			margin-top: 1.5rem;
+		}
+
+		.panel__button-friend {
+			@include button;
+			text-transform: none;
+			margin-top: 1.5rem;
+		}
+	}
+}
+
+@media (max-width: 348px) {
+	.mode-panel {
+		
+
+		&__logo {
+			transform: scale(0.7);
+		}
+
+		&__control-panel {
+			.panel__title {
+				font-size: 2rem;
+			}
+
+			margin-top: 2rem;
+		}
+	}
+}
+

@@ -5,10 +5,13 @@ console.log(root.style);
 
 const startPanelSection = document.querySelector('.start-panel');
 const settingsSection = document.querySelector('.settings');
+const playModeSection = document.querySelector('.mode-panel');
 
 const settingsBtn = document.querySelector('.panel__button-settings');
 const continueBtn = document.querySelector('.panel__button-continue');
 const backBtn = document.querySelector('.panel__button-back');
+const playWithFriendBtn = document.querySelector('.panel__button-friend');
+const playWithAiBtn = document.querySelector('.panel__button-ai');
 
 const userName = document.querySelector('.name__input');
 
@@ -67,11 +70,19 @@ blueLayout.addEventListener("click", () => {
 
 continueBtn.addEventListener('click', () => {
 	if ((userName.value !== "") && (userName.value.length <= 20)) {
-		alert("It's work :)")
+		startPanelSection.classList.toggle('hidden');
+		playModeSection.classList.remove('hidden');
 	} else {
 		alert("Something went wrong. Try again.")
 	}
 });
+
+
+playWithAiBtn.addEventListener('click', () => {
+		alert("Still working on that section, be patient :)")
+});
+
+
 
 settingsBtn.addEventListener('click', () => {
 	startPanelSection.classList.toggle('hidden');
