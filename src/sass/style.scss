@@ -488,12 +488,20 @@ body {
 			@include button;
 			text-transform: none;
 			margin-top: 1.5rem;
+
+			&:after {
+				top: 45%;
+			}
 		}
 
 		.panel__button-friend {
 			@include button;
 			text-transform: none;
 			margin-top: 1.5rem;
+
+			&:after {
+				top: 45%;
+			}
 		}
 	}
 }
@@ -516,3 +524,81 @@ body {
 	}
 }
 
+/* PICK SIDE SECTION */
+.side {
+	&__logo {
+		display: flex;
+		justify-content: center;
+		margin-top: 10rem;
+
+		.logo__circle {
+			@include circle;
+		}
+
+		.logo__cross {
+			@include cross;
+		}
+	}
+		
+	&__form {
+		margin-top: 2rem;
+
+		.form__radio input[type="radio"] {
+			display: none;
+
+			&:checked ~ span:after{
+				transform: translate(-50%, -50%) scale(1);
+			}
+		}
+
+		.form__radio {
+			width: 300px;
+			display: flex;
+			position: relative;
+			cursor: pointer;
+
+			span {
+				margin-left: -2rem;
+				height: 20px;
+				width: 20px;
+				border-radius: 50%;
+				border: 3px solid var(--red);
+				display: block;
+				position: absolute;
+				left: 85px;
+				top: 7px;
+
+				&:after {
+					content: "";
+					height: 8px;
+					width: 8px;
+					background: var(--red);
+					display: block;
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%) scale(0);
+					border-radius: 50%; 
+					transition: 300ms ease-in-out 0s;
+				}
+			}
+
+			.cross__checkbox ~ span {
+				margin-left: 0;
+				left: 215px;
+			}
+		}
+	}
+
+	&__control-panel {
+		margin-top: 10rem;
+		.panel__button-side {
+			@include button;
+			text-transform: none;
+
+			&:after {
+				top: 45%;
+			}
+		}
+	}
+}

@@ -1,4 +1,25 @@
+const sideContinueBtn = document.querySelector('.panel__button-side');
+let playerChoose;
+const circleSide = document.querySelector('.circle__checkbox');
+const crossSide = document.querySelector('.cross__checkbox');
 
+sideContinueBtn.addEventListener('click', () => {
+	if (circleSide.checked || crossSide.checked) {
+		if (circleSide.checked) {
+			playerChoose = 'O';
+		}
+
+		if (crossSide.checked) {
+			playerChoose = 'X';
+		}
+
+		pickSideSection.classList.toggle('hidden');
+		gameSection.classList.remove('hidden');
+	} else {
+		alert("Choose your sign.")
+	}
+
+})
 
 let root = document.documentElement;
 console.log(root.style);
@@ -6,6 +27,8 @@ console.log(root.style);
 const startPanelSection = document.querySelector('.start-panel');
 const settingsSection = document.querySelector('.settings');
 const playModeSection = document.querySelector('.mode-panel');
+const pickSideSection = document.querySelector('.side');
+const gameSection = document.querySelector('.game');
 
 const settingsBtn = document.querySelector('.panel__button-settings');
 const continueBtn = document.querySelector('.panel__button-continue');
@@ -67,7 +90,6 @@ blueLayout.addEventListener("click", () => {
 }); */
 
 
-
 continueBtn.addEventListener('click', () => {
 	if ((userName.value !== "") && (userName.value.length <= 20)) {
 		startPanelSection.classList.toggle('hidden');
@@ -81,6 +103,11 @@ continueBtn.addEventListener('click', () => {
 playWithAiBtn.addEventListener('click', () => {
 		alert("Still working on that section, be patient :)")
 });
+
+playWithFriendBtn.addEventListener('click', () => {
+	playModeSection.classList.toggle('hidden');
+	pickSideSection.classList.remove('hidden');
+})
 
 
 
