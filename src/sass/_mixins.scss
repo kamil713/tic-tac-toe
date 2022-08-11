@@ -73,6 +73,27 @@
 	mask: url('/dist/img/cross.svg') no-repeat 50% 50%;
 }
 
-@mixin checkbox {
+/* @mixin checkbox {
 	
+} */
+
+
+@mixin circle-mark {
+	content: '';
+	width: var(--mark-size);
+	height: var(--mark-size);
+	background: var(--red-gradient);
+	mask: url('/dist/img/circle.svg') no-repeat;
+	mask-size: contain;
+	mask-position: center;
+}
+
+@mixin cross-mark {
+	content: '';
+	width: var(--mark-size);
+	height: var(--mark-size);
+	background: var(--red-gradient);
+	mask: url('/dist/img/cross.svg') no-repeat;
+	mask-size: contain;
+	mask-position: center;
 }

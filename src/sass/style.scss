@@ -23,6 +23,9 @@
 
 	--red-gradient: linear-gradient(to right, var(--red), var(--light-red));
 	--light-red-opacity: rgba(255, 0, 66, 0.2);
+
+	--cell-size: 100px;
+	--mark-size: calc(var(--cell-size) * .9);
 }
 
 *,
@@ -600,5 +603,81 @@ body {
 				top: 45%;
 			}
 		}
+	}
+}
+
+/* GAME SECTION */
+.game {
+	&__info {
+		width: 50%;
+		display: flex;
+		justify-content: space-evenly;
+	}
+
+	&__board {
+		height: 100%;
+		width: 100%;
+		display: grid;
+		justify-content: center;
+		align-content: center;
+		justify-items: center;
+		align-items: center;
+		grid-template-columns: repeat(3, auto);
+
+		.cell {
+			width: var(--cell-size);
+			height: var(--cell-size);
+			border: 1px solid var(--white);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+			font-size: 0;
+		}
+
+		.cell.cross,
+		.cell.circle {
+			cursor: not-allowed;
+		}
+
+		&.cross .cell:not(.cross):not(.circle):hover {
+			@include cross-mark;
+			background: var(--light-red-opacity);
+		}
+
+		&.circle .cell:not(.cross):not(.circle):hover {
+			@include circle-mark;
+			background: var(--light-red-opacity);
+			border: none;
+		}
+
+		.cell:first-child,
+		.cell:nth-child(2),
+		.cell:nth-child(3) {
+			border-top: none;
+		}
+
+		.cell:nth-child(3n + 1) {
+			border-left: none;
+		}
+
+		.cell:nth-child(3n + 3) {
+			border-right: none;
+		}
+
+		.cell:last-child,
+		.cell:nth-child(8),
+		.cell:nth-child(7) {
+			border-bottom: none;
+		}
+
+		.cell.circle::before {
+			@include circle-mark;
+		}
+
+		.cell.cross::before {
+			@include cross-mark;
+		}
+
 	}
 }

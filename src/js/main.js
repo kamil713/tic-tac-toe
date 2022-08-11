@@ -18,11 +18,13 @@ sideContinueBtn.addEventListener('click', () => {
 	} else {
 		alert("Choose your sign.")
 	}
-
 })
 
 let root = document.documentElement;
 console.log(root.style);
+
+
+const infoUserName = document.querySelector(".info__player-name");
 
 const startPanelSection = document.querySelector('.start-panel');
 const settingsSection = document.querySelector('.settings');
@@ -94,6 +96,8 @@ continueBtn.addEventListener('click', () => {
 	if ((userName.value !== "") && (userName.value.length <= 20)) {
 		startPanelSection.classList.toggle('hidden');
 		playModeSection.classList.remove('hidden');
+
+		infoUserName.textContent = userName.value;
 	} else {
 		alert("Something went wrong. Try again.")
 	}
