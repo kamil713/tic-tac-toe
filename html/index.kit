@@ -207,12 +207,12 @@
         <span class="info__ai">AI</span>
       </div>
 
-      <div class="game__board circle">
-        <div class="cell cross" data-cell></div>
-        <div class="cell circle" data-cell></div>
+      <div class="game__board" id="board">
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
-        <div class="cell cross" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
@@ -220,7 +220,14 @@
       </div>
 
       <div class="game__control-panel">
+        <a href="#" class="panel__button-restart">
+          <span>Restart</span>
+        </a>
+      </div>
 
+      <div class="message" id="winningMessage">
+        <div data-wining-message-text></div>
+        <button id="restartButton">OK</button>
       </div>
     </section>
   </div>
