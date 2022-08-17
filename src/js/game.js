@@ -1,12 +1,14 @@
+/* STATE */
 class State {
 	constructor(old) {
+
 		this.turn = '';
 		this.oMovesCount = 0;
 		this.result = 'still running';
 		this.board = [];
 
 		if (typeof old !== 'undefined') {
-			let len = old.board.lenght;
+			let len = old.board.length;
 			this.board = new Array(len);
 			for (let itr = 0; itr < len; itr++) {
 				this.board[itr] = old.board[itr];

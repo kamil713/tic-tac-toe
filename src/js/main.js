@@ -1,98 +1,4 @@
-/* GAME LOGIC */
 
-const CROSS_CLASS = 'cross';
-const CIRCLE_CLASS = 'circle';
-const WINNING_COMBINATIONS = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[2, 4, 6],
-];
-const cellElements = document.querySelectorAll('[data-cell]');
-const board = document.getElementById('board');
-const winningMessageElement = document.getElementById('winningMessage');
-const winningMessageTextElement = document.querySelector(
-	'[data-wining-message-text]'
-);
-const restartButton = document.getElementById('restartButton');
-let circleTurn;
-
-restartButton.addEventListener('click', startGame);
-
-function startGame() {
-	cellElements.forEach((cell) => {
-		cell.classList.remove(CROSS_CLASS);
-		cell.classList.remove(CIRCLE_CLASS);
-		cell.removeEventListener('click', handleClick);
-		cell.addEventListener('click', handleClick, { once: true });
-	});
-	setBoardHoverClass();
-	winningMessageElement.classList.remove('show');
-}
-
-function handleClick(e) {
-	const cell = e.target;
-	const currentClass = circleTurn ? CIRCLE_CLASS : CROSS_CLASS;
-	placeMark(cell, currentClass);
-	if (checkWin(currentClass)) {
-		endGame(false);
-	} else if (isDraw()) {
-		endGame(true);
-	} else {
-		swapTurns();
-		setBoardHoverClass();
-	}
-}
-
-function endGame(draw) {
-	if (draw) {
-		winningMessageTextElement.innerText = 'Draw!';
-	} else {
-		winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`;
-	}
-	winningMessageElement.classList.add('show');
-}
-
-function isDraw() {
-	return [...cellElements].every((cell) => {
-		return (
-			cell.classList.contains(CROSS_CLASS) ||
-			cell.classList.contains(CIRCLE_CLASS)
-		);
-	});
-}
-
-function placeMark(cell, currentClass) {
-	cell.classList.add(currentClass);
-}
-
-function swapTurns() {
-	circleTurn = !circleTurn;
-}
-
-function setBoardHoverClass() {
-	board.classList.remove(CROSS_CLASS);
-	board.classList.remove(CIRCLE_CLASS);
-	if (circleTurn) {
-		board.classList.add(CIRCLE_CLASS);
-	} else {
-		board.classList.add(CROSS_CLASS);
-	}
-}
-
-function checkWin(currentClass) {
-	return WINNING_COMBINATIONS.some((combination) => {
-		console.log(`combination ${combination}`);
-		return combination.every((index) => {
-			console.log(`index ${index}`);
-			return cellElements[index].classList.contains(currentClass);
-		});
-	});
-}
 
 /* SWITCHING BETWEEN SECTIONS */
 
@@ -145,9 +51,9 @@ continueBtn.addEventListener('click', () => {
 	}
 });
 
-playWithAiBtn.addEventListener('click', () => {
+/* playWithAiBtn.addEventListener('click', () => {
 	alert('Still working on that section, be patient :)');
-});
+}); */
 
 playWithFriendBtn.addEventListener('click', () => {
 	playModeSection.classList.toggle('hidden');
@@ -263,3 +169,168 @@ blueLayout.addEventListener('click', () => {
 	root.style.setProperty('--light-red', 'rgb(66, 0, 250)');
 	root.style.setProperty('--light-red-opacity', 'rgba(66, 0, 250, 0.2)');
 });
+
+/* GAME LOGIC */
+
+const CROSS_CLASS = 'cross';
+const CIRCLE_CLASS = 'circle';
+const WINNING_COMBINATIONS = [
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6],
+];
+const cellElements = document.querySelectorAll('[data-cell]');
+const board = document.getElementById('board');
+const winningMessageElement = document.getElementById('winningMessage');
+const winningMessageTextElement = document.querySelector(
+	'[data-wining-message-text]'
+);
+const restartButton = document.getElementById('restartButton');
+let circleTurn;
+let gameStatus = 'still running';
+
+restartButton.addEventListener('click', startGame);
+
+function startGame() {
+	cellElements.forEach((cell) => {
+		cell.classList.remove(CROSS_CLASS);
+		cell.classList.remove(CIRCLE_CLASS);
+		cell.removeEventListener('click', handleClick);
+		cell.addEventListener('click', handleClick, { once: true });
+	});
+	setBoardHoverClass();
+	winningMessageElement.classList.remove('show');
+	gameStatus = 'still runinng';
+}
+
+function handleClick(e) {
+	const cell = e.target;
+	const currentClass = circleTurn ? CIRCLE_CLASS : CROSS_CLASS;
+	const aiCurrentClass = circleTurn ? CROSS_CLASS : CIRCLE_CLASS;
+	if (gameStatus === 'still runinng') {
+		placeMark(cell, currentClass);
+		handleCheckWin(currentClass);
+	}
+	if (gameStatus === 'still runinng') {
+		takeAEasyMove(aiCurrentClass);
+		handleCheckWin(aiCurrentClass);
+	}
+}
+
+function handleCheckWin(currentClass) {
+	if (checkWin(currentClass)) {
+		endGame(false);
+	} else if (isDraw()) {
+		endGame(true);
+	} else {
+		swapTurns();
+		setBoardHoverClass();
+	}
+} 
+
+function endGame(draw) {
+	if (draw) {
+		winningMessageTextElement.innerText = 'Draw!';
+		gameStatus = 'finish';
+	} else {
+		winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`;
+		gameStatus = 'finish';
+	}
+	winningMessageElement.classList.add('show');
+}
+
+function isDraw() {
+	return [...cellElements].every((cell) => {
+		return (
+			cell.classList.contains(CROSS_CLASS) ||
+			cell.classList.contains(CIRCLE_CLASS)
+		);
+	});
+}
+
+function placeMark(cell, currentClass) {
+	// while (true) {
+	// 	if (cell.classList.contains('cross') || cell.classList.contains('circle')) {
+	// 		placeMark(cell, currentClass);
+	// 	} else {
+			cell.classList.add(currentClass);
+	// 		break;
+	// 	}
+	// }
+}
+
+function swapTurns() {
+	circleTurn = !circleTurn;
+}
+
+function setBoardHoverClass() {
+	board.classList.remove(CROSS_CLASS);
+	board.classList.remove(CIRCLE_CLASS);
+	if (circleTurn) {
+		board.classList.add(CIRCLE_CLASS);
+	} else {
+		board.classList.add(CROSS_CLASS);
+	}
+}
+
+function checkWin(currentClass) {
+	return WINNING_COMBINATIONS.some((combination) => {
+		// console.log(`combination ${combination}`);
+		return combination.every((index) => {
+			// console.log(`index ${index} ${cellElements[index].classList.contains(currentClass)}`);
+			return cellElements[index].classList.contains(currentClass);
+		});
+	});
+}
+
+
+
+
+
+
+
+/* CONTROL GAME */
+
+let randomMode = ['easy', 'medium', 'hard'];
+let randomNumber = Math.floor(Math.random() * 3);
+const currentMode = getModeClassForName(selectedDifficulty.textContent);
+
+function getModeClassForName(name) {
+	if (name === 'Random') return randomMode[randomNumber];
+	if (name === 'Easy') return 'easy';
+	if (name === 'Medium') return 'medium';
+	if (name === 'Hard') return 'hard';
+	return null;
+}
+
+
+function takeAEasyMove(turn) {
+	let available = [];
+	cellElements.forEach((cell) => {
+		if (!cell.classList.contains('cross') && !cell.classList.contains('circle')) {
+			available.push(cell);
+		}
+	});
+	
+	let randomCell = available[Math.floor(Math.random() * available.length)];
+	if (randomCell !== undefined) {
+		randomCell.classList.add(turn);
+		randomCell.removeEventListener('click', handleClick);
+	}
+}
+
+
+/* AI */
+
+function notify(turn) {
+	// ...
+	switch(currentMode) {
+		case 'easy': takeAEasyMove(turn); break;
+		// ...
+	}
+}
