@@ -1,15 +1,12 @@
-let $level; // place, where user set difficulty level
-
-
-const main = () => {
+/* const main = () => {
 	prepareDOMElements();
 	prepareDOMEvents();
 };
 
-const prepareDOMElements = () => {
+const prepareDOMElements = () => {};
 
-};
+const prepareDOMEvents = () => {}; */
 
-const prepareDOMEvents = () => {
 
-};
+
+

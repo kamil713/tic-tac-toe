@@ -1,5 +1,3 @@
-
-
 /* SWITCHING BETWEEN SECTIONS */
 
 const infoUserName = document.querySelector('.info__player-name');
@@ -15,6 +13,7 @@ const continueBtn = document.querySelector('.panel__button-continue');
 const backBtn = document.querySelector('.panel__button-back');
 const playWithFriendBtn = document.querySelector('.panel__button-friend');
 const playWithAiBtn = document.querySelector('.panel__button-ai');
+let gameMode = '';
 
 const userName = document.querySelector('.name__input');
 
@@ -22,13 +21,16 @@ const sideContinueBtn = document.querySelector('.panel__button-side');
 const circleSide = document.querySelector('.circle__checkbox');
 const crossSide = document.querySelector('.cross__checkbox');
 
+let helpTurn;
 sideContinueBtn.addEventListener('click', () => {
 	if (circleSide.checked || crossSide.checked) {
 		if (circleSide.checked) {
 			circleTurn = true;
+			helpTurn = true;
 			console.log(circleTurn);
 		} else {
 			circleTurn = false;
+			helpTurn = false;
 			console.log(circleTurn);
 		}
 
@@ -51,13 +53,16 @@ continueBtn.addEventListener('click', () => {
 	}
 });
 
-/* playWithAiBtn.addEventListener('click', () => {
-	alert('Still working on that section, be patient :)');
-}); */
+playWithAiBtn.addEventListener('click', () => {
+	playModeSection.classList.toggle('hidden');
+	pickSideSection.classList.remove('hidden');
+	gameMode = 'ai';
+});
 
 playWithFriendBtn.addEventListener('click', () => {
 	playModeSection.classList.toggle('hidden');
 	pickSideSection.classList.remove('hidden');
+	gameMode = '';
 });
 
 settingsBtn.addEventListener('click', () => {
@@ -184,6 +189,11 @@ const WINNING_COMBINATIONS = [
 	[0, 4, 8],
 	[2, 4, 6],
 ];
+
+let resultPlayer = document.querySelector('.result__player');
+let resultAI = document.querySelector('.result__ai');
+
+const restartBtn = document.querySelector('.panel__button-restart');
 const cellElements = document.querySelectorAll('[data-cell]');
 const board = document.getElementById('board');
 const winningMessageElement = document.getElementById('winningMessage');
@@ -193,6 +203,42 @@ const winningMessageTextElement = document.querySelector(
 const restartButton = document.getElementById('restartButton');
 let circleTurn;
 let gameStatus = 'still running';
+let currentBoard = [
+	['', '', ''],
+	['', '', ''],
+	['', '', ''],
+];
+
+restartBtn.addEventListener('click', startGame);
+
+let randomMode = ['easy', 'medium', 'hard'];
+let randomNumber = Math.floor(Math.random() * 3);
+let currentMode;
+
+function getModeClassForName(name) {
+	if (name === 'Random') return randomMode[randomNumber];
+	if (name === 'Easy') return 'easy';
+	if (name === 'Medium') return 'medium';
+	if (name === 'Hard') return 'hard';
+	return null;
+}
+
+function notify(turn) {
+	// ...
+	console.log(currentMode);
+	switch (currentMode) {
+		case 'easy':
+			takeAEasyMove(turn);
+			break;
+		case 'medium':
+			takeAMediumMove(turn);
+			break;
+		case 'hard':
+			takeAHardMove(turn);
+			break;
+		// ...
+	}
+}
 
 restartButton.addEventListener('click', startGame);
 
@@ -203,22 +249,53 @@ function startGame() {
 		cell.removeEventListener('click', handleClick);
 		cell.addEventListener('click', handleClick, { once: true });
 	});
+
 	setBoardHoverClass();
 	winningMessageElement.classList.remove('show');
 	gameStatus = 'still runinng';
+	currentBoard = [
+		['', '', ''],
+		['', '', ''],
+		['', '', ''],
+	];
+	currentMode = getModeClassForName(selectedDifficulty.textContent);
+}
+
+let fieldX;
+let fieldY;
+function checkID(id) {
+	if (id < 3) {
+		fieldX = id;
+		fieldY = 0;
+	} else if (id < 6) {
+		fieldX = id - 3;
+		fieldY = 1;
+	} else {
+		fieldX = id - 6;
+		fieldY = 2;
+	}
 }
 
 function handleClick(e) {
 	const cell = e.target;
 	const currentClass = circleTurn ? CIRCLE_CLASS : CROSS_CLASS;
-	const aiCurrentClass = circleTurn ? CROSS_CLASS : CIRCLE_CLASS;
+	const aiCurrentClass = !circleTurn ? CIRCLE_CLASS : CROSS_CLASS;
+	console.log(currentBoard);
 	if (gameStatus === 'still runinng') {
 		placeMark(cell, currentClass);
 		handleCheckWin(currentClass);
+
+		checkID(cell.id);
+		if (currentBoard[fieldY][fieldX] == '') {
+			currentBoard[fieldY][fieldX] = currentClass == CROSS_CLASS ? 'x' : 'o';
+		}
 	}
+
 	if (gameStatus === 'still runinng') {
-		takeAEasyMove(aiCurrentClass);
-		handleCheckWin(aiCurrentClass);
+		if (gameMode !== '') {
+			notify(aiCurrentClass);
+			handleCheckWin(aiCurrentClass);
+		}
 	}
 }
 
@@ -231,7 +308,9 @@ function handleCheckWin(currentClass) {
 		swapTurns();
 		setBoardHoverClass();
 	}
-} 
+
+
+}
 
 function endGame(draw) {
 	if (draw) {
@@ -240,6 +319,11 @@ function endGame(draw) {
 	} else {
 		winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`;
 		gameStatus = 'finish';
+		// if (circleTurn) {
+		// 	resultPlayer.textContent++;
+		// } else {
+		// 	resultAI.textContent++;
+		// }
 	}
 	winningMessageElement.classList.add('show');
 }
@@ -254,14 +338,7 @@ function isDraw() {
 }
 
 function placeMark(cell, currentClass) {
-	// while (true) {
-	// 	if (cell.classList.contains('cross') || cell.classList.contains('circle')) {
-	// 		placeMark(cell, currentClass);
-	// 	} else {
-			cell.classList.add(currentClass);
-	// 		break;
-	// 	}
-	// }
+	cell.classList.add(currentClass);
 }
 
 function swapTurns() {
@@ -272,6 +349,7 @@ function setBoardHoverClass() {
 	board.classList.remove(CROSS_CLASS);
 	board.classList.remove(CIRCLE_CLASS);
 	if (circleTurn) {
+		// try
 		board.classList.add(CIRCLE_CLASS);
 	} else {
 		board.classList.add(CROSS_CLASS);
@@ -288,35 +366,19 @@ function checkWin(currentClass) {
 	});
 }
 
-
-
-
-
-
-
 /* CONTROL GAME */
-
-let randomMode = ['easy', 'medium', 'hard'];
-let randomNumber = Math.floor(Math.random() * 3);
-const currentMode = getModeClassForName(selectedDifficulty.textContent);
-
-function getModeClassForName(name) {
-	if (name === 'Random') return randomMode[randomNumber];
-	if (name === 'Easy') return 'easy';
-	if (name === 'Medium') return 'medium';
-	if (name === 'Hard') return 'hard';
-	return null;
-}
-
 
 function takeAEasyMove(turn) {
 	let available = [];
 	cellElements.forEach((cell) => {
-		if (!cell.classList.contains('cross') && !cell.classList.contains('circle')) {
+		if (
+			!cell.classList.contains('cross') &&
+			!cell.classList.contains('circle')
+		) {
 			available.push(cell);
 		}
 	});
-	
+
 	let randomCell = available[Math.floor(Math.random() * available.length)];
 	if (randomCell !== undefined) {
 		randomCell.classList.add(turn);
@@ -324,13 +386,143 @@ function takeAEasyMove(turn) {
 	}
 }
 
+function takeAMediumMove(turn) {
+	let available = [];
+	cellElements.forEach((cell) => {
+		if (
+			!cell.classList.contains('cross') &&
+			!cell.classList.contains('circle')
+		) {
+			available.push(cell);
+		}
+	});
 
-/* AI */
-
-function notify(turn) {
-	// ...
-	switch(currentMode) {
-		case 'easy': takeAEasyMove(turn); break;
-		// ...
+	let randomCell;
+	if (Boolean(Math.round(Math.random()))) {
+		randomCell = minMax(available.length, false, true);
+		console.log('ai');
+	} else {
+		randomCell = available[Math.floor(Math.random() * available.length)].id; //
+		console.log('przypadkowa');
 	}
+
+	if (randomCell !== undefined) {
+		console.log(randomCell);
+		cellElements[randomCell].classList.add(turn);
+		cellElements[randomCell].removeEventListener('click', handleClick);
+
+		checkID(randomCell);
+		if (currentBoard[fieldY][fieldX] == '') {
+			currentBoard[fieldY][fieldX] = !circleTurn ? 'x' : 'o';
+		}
+	}
+}
+
+function takeAHardMove(turn) {
+	let available = [];
+	cellElements.forEach((cell) => {
+		if (
+			!cell.classList.contains('cross') &&
+			!cell.classList.contains('circle')
+		) {
+			available.push(cell);
+		}
+	});
+
+	let randomCell = minMax(available.length, false, true);
+	console.log(randomCell);
+	if (randomCell !== undefined) {
+		console.log('wbiłem tu');
+		cellElements[randomCell].classList.add(turn);
+		cellElements[randomCell].removeEventListener('click', handleClick);
+
+		checkID(randomCell);
+		if (currentBoard[fieldY][fieldX] == '') {
+			currentBoard[fieldY][fieldX] = !circleTurn ? 'x' : 'o';
+		}
+	}
+}
+
+function minMax(freeFields, turnX, depth0) {
+	const humanTurn = circleTurn ? 'x' : 'o';
+	const aiTurn = !circleTurn ? 'x' : 'o';
+
+	let supp = turnX ? true : false;
+
+	if (checkIfSomeoneHasWon()) {
+		if (supp) return 3;
+		else return 1;
+	}
+
+	if (freeFields == 0) return 2;
+	let valueOfThisMove = 0;
+	let valuesOfMoves = [
+		[0, 0, 0],
+		[0, 0, 0],
+		[0, 0, 0],
+	];
+	for (let i = 0; i < 3; i++) {
+		for (let j = 0; j < 3; j++) {
+			if (currentBoard[i][j] == '') {
+				if (supp) currentBoard[i][j] = humanTurn;
+				else currentBoard[i][j] = aiTurn;
+				valuesOfMoves[i][j] = minMax(freeFields - 1, !turnX, false); // >>>????
+				currentBoard[i][j] = '';
+			}
+		}
+	}
+
+	if (supp) {
+		valueOfThisMove = 3;
+		for (let i = 0; i < 3; i++)
+			for (let j = 0; j < 3; j++)
+				if (valuesOfMoves[i][j] != 0 && valuesOfMoves[i][j] < valueOfThisMove)
+					valueOfThisMove = valuesOfMoves[i][j];
+	} else {
+		let x = 0;
+		let y = 0;
+		valueOfThisMove = valuesOfMoves[0][0];
+		for (let i = 0; i < 3; i++) {
+			for (let j = 0; j < 3; j++) {
+				if (valuesOfMoves[i][j] > valueOfThisMove) {
+					valueOfThisMove = valuesOfMoves[i][j];
+					x = j;
+					y = i;
+				}
+			}
+		}
+		if (depth0) return y * 3 + x;
+	}
+
+	return valueOfThisMove;
+}
+
+function checkIfSomeoneHasWon() {
+	for (let i = 0; i < 3; i++)
+		if (
+			currentBoard[i][0] != '' &&
+			currentBoard[i][0] == currentBoard[i][1] &&
+			currentBoard[i][1] == currentBoard[i][2]
+		)
+			return true;
+	for (let i = 0; i < 3; i++)
+		if (
+			currentBoard[0][i] != '' &&
+			currentBoard[0][i] == currentBoard[1][i] &&
+			currentBoard[1][i] == currentBoard[2][i]
+		)
+			return true;
+	if (
+		currentBoard[0][0] != '' &&
+		currentBoard[0][0] == currentBoard[1][1] &&
+		currentBoard[1][1] == currentBoard[2][2]
+	)
+		return true;
+	if (
+		currentBoard[2][0] != '' &&
+		currentBoard[2][0] == currentBoard[1][1] &&
+		currentBoard[1][1] == currentBoard[0][2]
+	)
+		return true;
+	return false;
 }
