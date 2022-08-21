@@ -25,16 +25,18 @@
   color: white;
   font-size: 5rem;
   flex-direction: column;
-
-	button {
+// button
+	a { 
+		text-decoration: none;
+		color: black;
 		font-size: 3rem;
 		background-color: white;
 		border: 1px solid black;
 		padding: .25em .5em;
 		cursor: pointer;
 	}
-
-	button:hover {
+// button:hover
+	a:hover { 
 		background-color: black;
 		color: white;
 		border-color: white;

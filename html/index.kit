@@ -60,19 +60,17 @@
 
           <div class="item__select-box">
             <div class="options-container options-container--dark-mode">
-              <div class="option option--dark-mode option--on">
+              <div class="option option--dark-mode">
                 <input type="radio" class="radio" id="on" name="category">
                 <label for="on">On</label>
               </div>
-              <div class="option option--dark-mode option--off">
+              <div class="option option--dark-mode">
                 <input type="radio" class="radio" id="off" name="category">
                 <label for="off">Off</label>
               </div>
             </div>
 
-            <div class="selected selected--dark-mode">
-              On
-            </div>
+            <div class="selected selected--dark-mode">On</div>
           </div>
         </div>
 
@@ -116,15 +114,15 @@
 
           <div class="item__select-box">
             <div class="options-container options-container--layout">
-              <div class="option option--layout option--red">
+              <div class="option option--layout">
                 <input type="radio" class="radio" id="red" name="category">
                 <label for="red">Red</label>
               </div>
-              <div class="option option--layout option--green">
+              <div class="option option--layout">
                 <input type="radio" class="radio" id="green" name="category">
                 <label for="green">Green</label>
               </div>
-              <div class="option option--layout option--blue">
+              <div class="option option--layout">
                 <input type="radio" class="radio" id="blue" name="category">
                 <label for="blue">Blue</label>
               </div>
@@ -196,13 +194,13 @@
     <!-- GAME SECTION -->
     <section class="game default hidden">
       <div class="game__info">
-        <span class="info__player-name">Default</span>
+        <span class="info__player-name"></span>
         <div class="info__result">
           <span class="result__player">0</span>
           <span>-</span>
           <span class="result__ai">0</span>
         </div>
-        <span class="info__ai">AI</span>
+        <span class="info__ai"></span>
       </div>
 
       <div class="game__board" id="board">
@@ -218,22 +216,26 @@
       </div>
 
       <div class="game__control-panel">
-        <a href="#" class="panel__button-restart">
+        <!-- <button class="panel__button-restart">
+          <span>Restart</span>
+        </button> -->
+        <a href="#" class="panel__button-restart restart">
           <span>Restart</span>
         </a>
       </div>
 
       <div class="message" id="winningMessage">
         <div data-wining-message-text></div>
-        <button id="restartButton">OK</button>
+    <!--     <button id="restartButton" class="restart-button">OK</button> -->
+        <a href="#" class="restart">
+          <span>OK</span>
+        </a>
       </div>
     </section>
   </div>
 
-  <!-- <script src="dist/js/game.min.js"></script> -->
-  <!-- <script src="dist/js/control.min.js"></script> -->
   <script src="dist/js/main.min.js"></script>
-
+  <script src="dist/js/game.min.js"></script>
 </body>
 
 </html>

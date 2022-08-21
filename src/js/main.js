@@ -1,528 +1,249 @@
+/* ******* */
+/* GENERAL */
+/* ******* */
+
+/* ALL SECTIONS */
+let $startPanelSection;
+let $settingsSection;
+let $playModeSection;
+let $pickSideSection;
+let $gameSection;
+
+/* ALL SECTION BUTTONS */
+let $continueBtn; // start-panel continue button
+let $settingsBtn; // start-panel setting button
+let $backBtn; // settings-panel back button
+let $playWithFriendBtn; // play-mode play with friends button
+let $playWithAiBtn; // play-mode play with ai button
+let $sideContinueBtn; // pick-side continue button
+
+/* ALL ABOUT PLAYER NAMES */
+let $userName; // place where the user enters the name
+let $infoUserName; // place where the application displays the user's name
+let $infoAIorFirendName; // same as above or displays 'ai'
+
+/* CHECKBOXES FROM PICK SIDE SECTION */
+let $circleSide; // sets 'o' as player's choice
+let $crossSide; // sets 'x' as player's choice
+
+/* ************************************** */
+/* BELOW IS ALL FROM THE SETTING SECTIONS */
+/* ************************************** */
+
+/* ROOT */
+let $root; // is used to manipulate the styles of variables
+
+/* DARK MODE ELEMENTS LOGIC */
+let $selectedDarkMode; // default or user-selected dark mode value
+let $optionsContainerDarkMode; // expands or collapses dark mode selection list
+let $optionsListDarkMode; // all available options
+
+/* DIFFICULTY ELEMENTS LOGIC */
+let $selectedDifficulty; // default or user-selected difficulty value
+let $optionsContainerDifficulty; // expands or collapses difficulty selection list
+let $optionsListDifficulty; // all available options
+
+/* LAYOUT ELEMENTS LOGIC */
+let $selectedLayout; // default or user-selected layout value
+let $optionsContainerLayout; // expands or collapses layout selection list
+let $optionsListLayout; // all available options
+
+const main = () => {
+	prepareDOMElements();
+	prepareDOMEvents();
+};
+
+const prepareDOMElements = () => {
+	$startPanelSection = document.querySelector('.start-panel');
+	$settingsSection = document.querySelector('.settings');
+	$playModeSection = document.querySelector('.mode-panel');
+	$pickSideSection = document.querySelector('.side');
+	$gameSection = document.querySelector('.game');
+
+	$settingsBtn = document.querySelector('.panel__button-settings');
+	$continueBtn = document.querySelector('.panel__button-continue');
+	$backBtn = document.querySelector('.panel__button-back');
+	$playWithFriendBtn = document.querySelector('.panel__button-friend');
+	$playWithAiBtn = document.querySelector('.panel__button-ai');
+	$sideContinueBtn = document.querySelector('.panel__button-side');
+
+	$userName = document.querySelector('.name__input');
+	$infoUserName = document.querySelector('.info__player-name');
+	$infoAIorFirendName = document.querySelector('.info__ai');
+
+	$circleSide = document.querySelector('.circle__checkbox');
+	$crossSide = document.querySelector('.cross__checkbox');
+
+	$root = document.documentElement;
+
+	$selectedDarkMode = document.querySelector('.selected--dark-mode');
+	$optionsContainerDarkMode = document.querySelector('.options-container--dark-mode');
+	$optionsListDarkMode = document.querySelectorAll('.option--dark-mode');
+
+	$selectedDifficulty = document.querySelector('.selected--difficulty');
+	$optionsContainerDifficulty = document.querySelector('.options-container--difficulty');
+	$optionsListDifficulty = document.querySelectorAll('.option--difficulty');
+
+	$selectedLayout = document.querySelector('.selected--layout');
+	$optionsContainerLayout = document.querySelector('.options-container--layout');
+	$optionsListLayout = document.querySelectorAll('.option--layout');
+};
+
+const prepareDOMEvents = () => {
+	$continueBtn.addEventListener('click', moveToPlayModeSection);
+	$settingsBtn.addEventListener('click', moveToSettingSection);
+	$backBtn.addEventListener('click', returnToStartPanelSection);
+	$playWithAiBtn.addEventListener('click', function () {
+		moveToPickSideSection('ai');
+	});
+	$playWithFriendBtn.addEventListener('click', function () {
+		moveToPickSideSection('friend');
+	});
+	$sideContinueBtn.addEventListener('click', moveToGameSection);
+
+	$selectedDarkMode.addEventListener('click', expandDarkModeSelectionList);
+	$optionsListDarkMode.forEach((el) => {
+		el.addEventListener('click', function () {
+			selectElementFromDarkModeList(el);
+		});
+	});
+	$selectedDifficulty.addEventListener('click', expandDifficultySelectionList);
+	$optionsListDifficulty.forEach((el) => {
+		el.addEventListener('click', function () {
+			selectElementDifficultyList(el);
+		});
+	});
+	$selectedLayout.addEventListener('click', expandLayoutSelectionList);
+	$optionsListLayout.forEach((el) => {
+		el.addEventListener('click', function () {
+			selectElementLayoutList(el);
+		});
+	});
+};
+
+let gameMode = ''; // przeniesc do game
+
+/* ************************** */
+/* BELOW IS ALL LOGIC FOR ... */
+/* ************************** */
+
 /* SWITCHING BETWEEN SECTIONS */
+const moveToPlayModeSection = () => {
+	if ($userName.value !== '' && $userName.value.length <= 10) {
+		$startPanelSection.classList.toggle('hidden');
+		$playModeSection.classList.remove('hidden');
 
-const infoUserName = document.querySelector('.info__player-name');
+		$infoUserName.textContent = $userName.value;
+	} else {
+		alert('Something went wrong. Try again.');
+	}
+};
 
-const startPanelSection = document.querySelector('.start-panel');
-const settingsSection = document.querySelector('.settings');
-const playModeSection = document.querySelector('.mode-panel');
-const pickSideSection = document.querySelector('.side');
-const gameSection = document.querySelector('.game');
+const moveToSettingSection = () => {
+	$startPanelSection.classList.toggle('hidden');
+	$settingsSection.classList.remove('hidden');
+};
 
-const settingsBtn = document.querySelector('.panel__button-settings');
-const continueBtn = document.querySelector('.panel__button-continue');
-const backBtn = document.querySelector('.panel__button-back');
-const playWithFriendBtn = document.querySelector('.panel__button-friend');
-const playWithAiBtn = document.querySelector('.panel__button-ai');
-let gameMode = '';
+const returnToStartPanelSection = () => {
+	$settingsSection.classList.toggle('hidden');
+	$startPanelSection.classList.remove('hidden');
+};
 
-const userName = document.querySelector('.name__input');
+const moveToPickSideSection = (mode) => {
+	$playModeSection.classList.toggle('hidden');
+	$pickSideSection.classList.remove('hidden');
 
-const sideContinueBtn = document.querySelector('.panel__button-side');
-const circleSide = document.querySelector('.circle__checkbox');
-const crossSide = document.querySelector('.cross__checkbox');
+	if (mode === 'ai') {
+		gameMode = 'ai';
+		$infoAIorFirendName.textContent = 'AI';
+	} else {
+		gameMode = '';
+		$infoAIorFirendName.textContent = $userName.value;
+	}
+};
 
-let helpTurn;
-sideContinueBtn.addEventListener('click', () => {
-	if (circleSide.checked || crossSide.checked) {
-		if (circleSide.checked) {
+const moveToGameSection = () => {
+	if ($circleSide.checked || $crossSide.checked) {
+		if ($circleSide.checked) {
 			circleTurn = true;
-			helpTurn = true;
-			console.log(circleTurn);
 		} else {
 			circleTurn = false;
-			helpTurn = false;
-			console.log(circleTurn);
 		}
 
-		pickSideSection.classList.toggle('hidden');
-		gameSection.classList.remove('hidden');
+		$pickSideSection.classList.toggle('hidden');
+		$gameSection.classList.remove('hidden');
 		startGame();
 	} else {
 		alert('Choose your sign.');
 	}
-});
-
-continueBtn.addEventListener('click', () => {
-	if (userName.value !== '' && userName.value.length <= 10) {
-		startPanelSection.classList.toggle('hidden');
-		playModeSection.classList.remove('hidden');
-
-		infoUserName.textContent = userName.value;
-	} else {
-		alert('Something went wrong. Try again.');
-	}
-});
-
-playWithAiBtn.addEventListener('click', () => {
-	playModeSection.classList.toggle('hidden');
-	pickSideSection.classList.remove('hidden');
-	gameMode = 'ai';
-});
-
-playWithFriendBtn.addEventListener('click', () => {
-	playModeSection.classList.toggle('hidden');
-	pickSideSection.classList.remove('hidden');
-	gameMode = '';
-});
-
-settingsBtn.addEventListener('click', () => {
-	startPanelSection.classList.toggle('hidden');
-	settingsSection.classList.remove('hidden');
-});
-
-backBtn.addEventListener('click', () => {
-	settingsSection.classList.toggle('hidden');
-	startPanelSection.classList.remove('hidden');
-});
+};
 
 /* OPTIONS / SETTINGS */
-let root = document.documentElement;
+/* DARK MODE */
+const expandDarkModeSelectionList = () => {
+	$optionsContainerDarkMode.classList.toggle('active');
+};
+const selectElementFromDarkModeList = (el) => {
+	$selectedDarkMode.innerHTML = el.querySelector('label').innerHTML;
 
-/* DARK MODE ELEMENT LOGIC */
-const selectedDarkMode = document.querySelector('.selected--dark-mode');
-const optionsContainerDarkMode = document.querySelector(
-	'.options-container--dark-mode'
-);
-const optionsListDarkMode = document.querySelectorAll('.option--dark-mode');
-
-const darkModeON = document.querySelector('.option--on');
-const darkModeOFF = document.querySelector('.option--off');
-
-selectedDarkMode.addEventListener('click', () => {
-	optionsContainerDarkMode.classList.toggle('active');
-});
-
-optionsListDarkMode.forEach((el) => {
-	el.addEventListener('click', () => {
-		selectedDarkMode.innerHTML = el.querySelector('label').innerHTML;
-		optionsContainerDarkMode.classList.remove('active');
-	});
-});
-
-darkModeON.addEventListener('click', () => {
-	console.log('ON');
-	root.style.setProperty('--white', 'rgb(255, 255, 255)');
-	root.style.setProperty('--dark', 'rgb(35, 35, 35)');
-});
-
-darkModeOFF.addEventListener('click', () => {
-	console.log('OFF');
-	root.style.setProperty('--white', 'rgb(35, 35, 35)');
-	root.style.setProperty('--dark', 'rgb(255, 255, 255)');
-});
-
-/* DIFFICULTY ELEMENT LOGIC */
-const selectedDifficulty = document.querySelector('.selected--difficulty');
-const optionsContainerDifficulty = document.querySelector(
-	'.options-container--difficulty'
-);
-
-const optionsListDifficulty = document.querySelectorAll('.option--difficulty');
-
-selectedDifficulty.addEventListener('click', () => {
-	optionsContainerDifficulty.classList.toggle('active');
-});
-
-optionsListDifficulty.forEach((el) => {
-	el.addEventListener('click', () => {
-		selectedDifficulty.innerHTML = el.querySelector('label').innerHTML;
-		optionsContainerDifficulty.classList.remove('active');
-	});
-});
-
-/* LAYOUT ELEMENT LOGIC */
-const selectedLayout = document.querySelector('.selected--layout');
-const optionsContainerLayout = document.querySelector(
-	'.options-container--layout'
-);
-const optionsListLayout = document.querySelectorAll('.option--layout');
-
-const redLayout = document.querySelector('.option--red');
-const greenLayout = document.querySelector('.option--green');
-const blueLayout = document.querySelector('.option--blue');
-
-selectedLayout.addEventListener('click', () => {
-	optionsContainerLayout.classList.toggle('active');
-});
-
-optionsListLayout.forEach((el) => {
-	el.addEventListener('click', () => {
-		selectedLayout.innerHTML = el.querySelector('label').innerHTML;
-		optionsContainerLayout.classList.remove('active');
-	});
-});
-
-redLayout.addEventListener('click', () => {
-	console.log('red');
-	root.style.setProperty('--red', 'rgb(160, 28, 53)');
-	root.style.setProperty('--light-red', 'rgb(255, 0, 66)');
-	root.style.setProperty('--light-red-opacity', 'rgba(255, 0, 66, 0.2)');
-});
-
-greenLayout.addEventListener('click', () => {
-	console.log('green');
-	// colors.red = colors.green;
-	console.log(root.style);
-	root.style.setProperty('--red', 'rgb(28, 160, 53)');
-	root.style.setProperty('--light-red', 'rgb(0, 250, 66)');
-	root.style.setProperty('--light-red-opacity', 'rgba(0, 250, 66, 0.2)');
-});
-
-blueLayout.addEventListener('click', () => {
-	console.log('blue');
-	root.style.setProperty('--red', 'rgb(53, 28, 160)');
-	root.style.setProperty('--light-red', 'rgb(66, 0, 250)');
-	root.style.setProperty('--light-red-opacity', 'rgba(66, 0, 250, 0.2)');
-});
-
-/* GAME LOGIC */
-
-const CROSS_CLASS = 'cross';
-const CIRCLE_CLASS = 'circle';
-const WINNING_COMBINATIONS = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[2, 4, 6],
-];
-
-let resultPlayer = document.querySelector('.result__player');
-let resultAI = document.querySelector('.result__ai');
-
-const restartBtn = document.querySelector('.panel__button-restart');
-const cellElements = document.querySelectorAll('[data-cell]');
-const board = document.getElementById('board');
-const winningMessageElement = document.getElementById('winningMessage');
-const winningMessageTextElement = document.querySelector(
-	'[data-wining-message-text]'
-);
-const restartButton = document.getElementById('restartButton');
-let circleTurn;
-let gameStatus = 'still running';
-let currentBoard = [
-	['', '', ''],
-	['', '', ''],
-	['', '', ''],
-];
-
-restartBtn.addEventListener('click', startGame);
-
-let randomMode = ['easy', 'medium', 'hard'];
-let randomNumber = Math.floor(Math.random() * 3);
-let currentMode;
-
-function getModeClassForName(name) {
-	if (name === 'Random') return randomMode[randomNumber];
-	if (name === 'Easy') return 'easy';
-	if (name === 'Medium') return 'medium';
-	if (name === 'Hard') return 'hard';
-	return null;
-}
-
-function notify(turn) {
-	// ...
-	console.log(currentMode);
-	switch (currentMode) {
-		case 'easy':
-			takeAEasyMove(turn);
+	switch ($selectedDarkMode.textContent) {
+		case 'On':
+			$root.style.setProperty('--white', 'rgb(255, 255, 255)');
+			$root.style.setProperty('--dark', 'rgb(35, 35, 35)');
 			break;
-		case 'medium':
-			takeAMediumMove(turn);
+		case 'Off':
+			$root.style.setProperty('--white', 'rgb(35, 35, 35)');
+			$root.style.setProperty('--dark', 'rgb(255, 255, 255)');
 			break;
-		case 'hard':
-			takeAHardMove(turn);
+		default:
+			console.log('error');
+			console.log($selectedDarkMode.textContent);
 			break;
-		// ...
-	}
-}
-
-restartButton.addEventListener('click', startGame);
-
-function startGame() {
-	cellElements.forEach((cell) => {
-		cell.classList.remove(CROSS_CLASS);
-		cell.classList.remove(CIRCLE_CLASS);
-		cell.removeEventListener('click', handleClick);
-		cell.addEventListener('click', handleClick, { once: true });
-	});
-
-	setBoardHoverClass();
-	winningMessageElement.classList.remove('show');
-	gameStatus = 'still runinng';
-	currentBoard = [
-		['', '', ''],
-		['', '', ''],
-		['', '', ''],
-	];
-	currentMode = getModeClassForName(selectedDifficulty.textContent);
-}
-
-let fieldX;
-let fieldY;
-function checkID(id) {
-	if (id < 3) {
-		fieldX = id;
-		fieldY = 0;
-	} else if (id < 6) {
-		fieldX = id - 3;
-		fieldY = 1;
-	} else {
-		fieldX = id - 6;
-		fieldY = 2;
-	}
-}
-
-function handleClick(e) {
-	const cell = e.target;
-	const currentClass = circleTurn ? CIRCLE_CLASS : CROSS_CLASS;
-	const aiCurrentClass = !circleTurn ? CIRCLE_CLASS : CROSS_CLASS;
-	console.log(currentBoard);
-	if (gameStatus === 'still runinng') {
-		placeMark(cell, currentClass);
-		handleCheckWin(currentClass);
-
-		checkID(cell.id);
-		if (currentBoard[fieldY][fieldX] == '') {
-			currentBoard[fieldY][fieldX] = currentClass == CROSS_CLASS ? 'x' : 'o';
-		}
 	}
 
-	if (gameStatus === 'still runinng') {
-		if (gameMode !== '') {
-			notify(aiCurrentClass);
-			handleCheckWin(aiCurrentClass);
-		}
-	}
-}
+	$optionsContainerDarkMode.classList.remove('active');
+};
 
-function handleCheckWin(currentClass) {
-	if (checkWin(currentClass)) {
-		endGame(false);
-	} else if (isDraw()) {
-		endGame(true);
-	} else {
-		swapTurns();
-		setBoardHoverClass();
-	}
+/* DIFFICULTY */
+const expandDifficultySelectionList = () => {
+	$optionsContainerDifficulty.classList.toggle('active');
+};
+const selectElementDifficultyList = (el) => {
+	$selectedDifficulty.innerHTML = el.querySelector('label').innerHTML;
+	$optionsContainerDifficulty.classList.remove('active');
+};
 
+/* LAYOUT */
+const expandLayoutSelectionList = () => {
+	$optionsContainerLayout.classList.toggle('active');
+};
+const selectElementLayoutList = (el) => {
+	$selectedLayout.innerHTML = el.querySelector('label').innerHTML;
 
-}
-
-function endGame(draw) {
-	if (draw) {
-		winningMessageTextElement.innerText = 'Draw!';
-		gameStatus = 'finish';
-	} else {
-		winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`;
-		gameStatus = 'finish';
-		// if (circleTurn) {
-		// 	resultPlayer.textContent++;
-		// } else {
-		// 	resultAI.textContent++;
-		// }
-	}
-	winningMessageElement.classList.add('show');
-}
-
-function isDraw() {
-	return [...cellElements].every((cell) => {
-		return (
-			cell.classList.contains(CROSS_CLASS) ||
-			cell.classList.contains(CIRCLE_CLASS)
-		);
-	});
-}
-
-function placeMark(cell, currentClass) {
-	cell.classList.add(currentClass);
-}
-
-function swapTurns() {
-	circleTurn = !circleTurn;
-}
-
-function setBoardHoverClass() {
-	board.classList.remove(CROSS_CLASS);
-	board.classList.remove(CIRCLE_CLASS);
-	if (circleTurn) {
-		// try
-		board.classList.add(CIRCLE_CLASS);
-	} else {
-		board.classList.add(CROSS_CLASS);
-	}
-}
-
-function checkWin(currentClass) {
-	return WINNING_COMBINATIONS.some((combination) => {
-		// console.log(`combination ${combination}`);
-		return combination.every((index) => {
-			// console.log(`index ${index} ${cellElements[index].classList.contains(currentClass)}`);
-			return cellElements[index].classList.contains(currentClass);
-		});
-	});
-}
-
-/* CONTROL GAME */
-
-function takeAEasyMove(turn) {
-	let available = [];
-	cellElements.forEach((cell) => {
-		if (
-			!cell.classList.contains('cross') &&
-			!cell.classList.contains('circle')
-		) {
-			available.push(cell);
-		}
-	});
-
-	let randomCell = available[Math.floor(Math.random() * available.length)];
-	if (randomCell !== undefined) {
-		randomCell.classList.add(turn);
-		randomCell.removeEventListener('click', handleClick);
-	}
-}
-
-function takeAMediumMove(turn) {
-	let available = [];
-	cellElements.forEach((cell) => {
-		if (
-			!cell.classList.contains('cross') &&
-			!cell.classList.contains('circle')
-		) {
-			available.push(cell);
-		}
-	});
-
-	let randomCell;
-	if (Boolean(Math.round(Math.random()))) {
-		randomCell = minMax(available.length, false, true);
-		console.log('ai');
-	} else {
-		randomCell = available[Math.floor(Math.random() * available.length)].id; //
-		console.log('przypadkowa');
+	switch ($selectedLayout.textContent) {
+		case 'Red':
+			$root.style.setProperty('--red', 'rgb(160, 28, 53)');
+			$root.style.setProperty('--light-red', 'rgb(255, 0, 66)');
+			$root.style.setProperty('--light-red-opacity', 'rgba(255, 0, 66, 0.2)');
+			break;
+		case 'Green':
+			$root.style.setProperty('--red', 'rgb(28, 160, 53)');
+			$root.style.setProperty('--light-red', 'rgb(0, 250, 66)');
+			$root.style.setProperty('--light-red-opacity', 'rgba(0, 250, 66, 0.2)');
+			break;
+		case 'Blue':
+			$root.style.setProperty('--red', 'rgb(53, 28, 160)');
+			$root.style.setProperty('--light-red', 'rgb(66, 0, 250)');
+			$root.style.setProperty('--light-red-opacity', 'rgba(66, 0, 250, 0.2)');
+			break;
+		default:
+			console.log('error');
+			console.log($selectedDarkMode.textContent);
+			break;
 	}
 
-	if (randomCell !== undefined) {
-		console.log(randomCell);
-		cellElements[randomCell].classList.add(turn);
-		cellElements[randomCell].removeEventListener('click', handleClick);
+	$optionsContainerLayout.classList.remove('active');
+};
 
-		checkID(randomCell);
-		if (currentBoard[fieldY][fieldX] == '') {
-			currentBoard[fieldY][fieldX] = !circleTurn ? 'x' : 'o';
-		}
-	}
-}
 
-function takeAHardMove(turn) {
-	let available = [];
-	cellElements.forEach((cell) => {
-		if (
-			!cell.classList.contains('cross') &&
-			!cell.classList.contains('circle')
-		) {
-			available.push(cell);
-		}
-	});
-
-	let randomCell = minMax(available.length, false, true);
-	console.log(randomCell);
-	if (randomCell !== undefined) {
-		console.log('wbiłem tu');
-		cellElements[randomCell].classList.add(turn);
-		cellElements[randomCell].removeEventListener('click', handleClick);
-
-		checkID(randomCell);
-		if (currentBoard[fieldY][fieldX] == '') {
-			currentBoard[fieldY][fieldX] = !circleTurn ? 'x' : 'o';
-		}
-	}
-}
-
-function minMax(freeFields, turnX, depth0) {
-	const humanTurn = circleTurn ? 'x' : 'o';
-	const aiTurn = !circleTurn ? 'x' : 'o';
-
-	let supp = turnX ? true : false;
-
-	if (checkIfSomeoneHasWon()) {
-		if (supp) return 3;
-		else return 1;
-	}
-
-	if (freeFields == 0) return 2;
-	let valueOfThisMove = 0;
-	let valuesOfMoves = [
-		[0, 0, 0],
-		[0, 0, 0],
-		[0, 0, 0],
-	];
-	for (let i = 0; i < 3; i++) {
-		for (let j = 0; j < 3; j++) {
-			if (currentBoard[i][j] == '') {
-				if (supp) currentBoard[i][j] = humanTurn;
-				else currentBoard[i][j] = aiTurn;
-				valuesOfMoves[i][j] = minMax(freeFields - 1, !turnX, false); // >>>????
-				currentBoard[i][j] = '';
-			}
-		}
-	}
-
-	if (supp) {
-		valueOfThisMove = 3;
-		for (let i = 0; i < 3; i++)
-			for (let j = 0; j < 3; j++)
-				if (valuesOfMoves[i][j] != 0 && valuesOfMoves[i][j] < valueOfThisMove)
-					valueOfThisMove = valuesOfMoves[i][j];
-	} else {
-		let x = 0;
-		let y = 0;
-		valueOfThisMove = valuesOfMoves[0][0];
-		for (let i = 0; i < 3; i++) {
-			for (let j = 0; j < 3; j++) {
-				if (valuesOfMoves[i][j] > valueOfThisMove) {
-					valueOfThisMove = valuesOfMoves[i][j];
-					x = j;
-					y = i;
-				}
-			}
-		}
-		if (depth0) return y * 3 + x;
-	}
-
-	return valueOfThisMove;
-}
-
-function checkIfSomeoneHasWon() {
-	for (let i = 0; i < 3; i++)
-		if (
-			currentBoard[i][0] != '' &&
-			currentBoard[i][0] == currentBoard[i][1] &&
-			currentBoard[i][1] == currentBoard[i][2]
-		)
-			return true;
-	for (let i = 0; i < 3; i++)
-		if (
-			currentBoard[0][i] != '' &&
-			currentBoard[0][i] == currentBoard[1][i] &&
-			currentBoard[1][i] == currentBoard[2][i]
-		)
-			return true;
-	if (
-		currentBoard[0][0] != '' &&
-		currentBoard[0][0] == currentBoard[1][1] &&
-		currentBoard[1][1] == currentBoard[2][2]
-	)
-		return true;
-	if (
-		currentBoard[2][0] != '' &&
-		currentBoard[2][0] == currentBoard[1][1] &&
-		currentBoard[1][1] == currentBoard[0][2]
-	)
-		return true;
-	return false;
-}
+document.addEventListener('DOMContentLoaded', main);
