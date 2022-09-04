@@ -1,8 +1,7 @@
-@import './colors';
 @import './components';
 @import './mixins';
 
-
+// use root to be able to manipulate colors with js
 :root {
 	--white: rgb(255, 255, 255);
 	
@@ -138,7 +137,7 @@ body {
 				bottom: 0;
 				left: 0;
 				background-image: var(--red-gradient);
-				box-shadow: 0 1rem 1.5rem var(--light-red-opacity); // rgba($light-red, 0.2)
+				box-shadow: 0 1rem 1.5rem var(--light-red-opacity);
 				border-radius: 50%;
 				transition: opacity 0.5s ease;
 				opacity: 0;
@@ -148,10 +147,6 @@ body {
 				opacity: 1;
 			}
 
-			// &:hover {
-			// 	background-image: linear-gradient(90deg, #a01c35, #ff0042);
-			// }
-
 			&:after {
 				content: '';
 				position: absolute;
@@ -160,8 +155,7 @@ body {
 				transform: translate(-50%, -50%);
 				width: 2.6rem;
 				height: 2.6rem;
-				// background: url('/dist/img/whiteSettings.png') no-repeat 50% 50%;
-				mask: url('/dist/img/settings.svg') no-repeat 50% 50%;
+				mask: url('../img/settings.svg') no-repeat 50% 50%;
 				background: var(--white);
 				background-size: 100% auto;
 			}
@@ -288,7 +282,6 @@ body {
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-start;
-			// background-color: goldenrod;
 			padding: 2rem;
 			padding-bottom: 0;
 
@@ -300,22 +293,20 @@ body {
 				.tag__icon {
 					width: 3.2rem;
 					height: 3.2rem;
-					// background-size: contain;
 					background-repeat: no-repeat;
-					// background-size: 100% auto;
 
 					&.icon--dark-mode {
-						mask: url('/dist/img/moon.svg');
+						mask: url('../img/moon.svg');
 						background: var(--white);
 					}
 
 					&.icon--difficulty {
-						mask: url('/dist/img/gauge.svg');
+						mask: url('../img/gauge.svg');
 						background: var(--white);
 					}
 
 					&.icon--layout {
-						mask: url('/dist/img/palette.svg');
+						mask: url('../img/palette.svg');
 						background: var(--white);
 					}
 				}
@@ -378,7 +369,7 @@ body {
 
 					&::after {
 						content: '';
-						background: url('/dist/img/arrow-down.svg');
+						background: url('../img/arrow-down.svg');
 						background-size: contain;
 						background-repeat: no-repeat;
 

@@ -1,5 +1,4 @@
 @mixin button {
-  // padding: 1rem 3rem;
 	@media (max-width: 348px) {
 		padding: 0.6rem 1.8rem;
 		font-size: 1.2rem;
@@ -35,8 +34,7 @@
 		height: 1.6rem;
 		margin-top: -0.5rem;
 		display: block;
-		// background: url('/dist/img/rightArrow.png') no-repeat; 
-		mask: url('/dist/img/arrow-right.svg') no-repeat 50% 50%;
+		mask: url('../img/arrow-right.svg') no-repeat 50% 50%;
 		background: var(--white);
 		background-size: 100% auto;
 		transition: all 0.4s ease;
@@ -49,7 +47,7 @@
 		border-color: var(--red);
 		color: var(--white);
 		padding-right: 5rem;
-		box-shadow: 0 1rem 1.5rem var(--light-red-opacity); // rgba($light-red, 0.2)
+		box-shadow: 0 1rem 1.5rem var(--light-red-opacity);
 
 		&:after {
 			transform: translate3d(0, 0, 0);
@@ -60,7 +58,6 @@
 }
 
 @mixin button2 {
-  // padding: 1rem 3rem;
 	@media (max-width: 348px) {
 		padding: 0.6rem 1.8rem;
 		font-size: 1.2rem;
@@ -90,7 +87,7 @@
 		background: var(--red-gradient);
 		border-color: var(--red);
 		color: var(--white);
-		box-shadow: 0 1rem 1.5rem var(--light-red-opacity); // rgba($light-red, 0.2)
+		box-shadow: 0 1rem 1.5rem var(--light-red-opacity);
 		transform: scale(1.1);
 	}
 }
@@ -99,27 +96,22 @@
 	width: 15rem;
 	height: 17rem;
 	background: var(--red-gradient);
-	mask: url('/dist/img/circle.svg') no-repeat 50% 50%;
+	mask: url('../img/circle.svg') no-repeat 50% 50%;
 }
 
 @mixin cross {
 	width: 15rem;
 	height: 17rem;
 	background: var(--red-gradient);
-	mask: url('/dist/img/cross.svg') no-repeat 50% 50%;
+	mask: url('../img/cross.svg') no-repeat 50% 50%;
 }
-
-/* @mixin checkbox {
-	
-} */
-
 
 @mixin circle-mark {
 	content: '';
 	width: var(--mark-size);
 	height: var(--mark-size);
 	background: var(--red-gradient);
-	mask: url('/dist/img/circle.svg') no-repeat;
+	mask: url('../img/circle.svg') no-repeat;
 	mask-size: contain;
 	mask-position: center;
 }
@@ -129,7 +121,7 @@
 	width: var(--mark-size);
 	height: var(--mark-size);
 	background: var(--red-gradient);
-	mask: url('/dist/img/cross.svg') no-repeat;
+	mask: url('../img/cross.svg') no-repeat;
 	mask-size: contain;
 	mask-position: center;
 }
