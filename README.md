@@ -7,7 +7,7 @@
   <h1>Tic Tac Toe</h1>
   
   <p>
-    This is a page reproduced from a mock-up for learning purposes.
+    A simple tic tac toe app, with few features and AI.
   </p>
   
   
@@ -38,7 +38,7 @@
 <!-- Screenshots -->
 ### :camera: Screenshots
 
-<div align="center"> 
+<div align="center" display="flex"> 
   <img src="./dist/img/screen1.png" alt="screenshot" />
   <img src="./dist/img/screen2.png" alt="screenshot" />
   <img src="./dist/img/screen3.png" alt="screenshot" />
